@@ -2,6 +2,7 @@ import json
 import requests
 from types import SimpleNamespace
 from logger import *
+import pandas as pd
 
 def load_config():
     """
@@ -16,6 +17,21 @@ def load_config():
         error("Configuration file not found.")
     except json.JSONDecodeError:
         error("Error decoding JSON from the configuration file.")
+
+def save_to_csv(data, filename='output.csv'):
+    """
+    Save data to a CSV file.
+    This is a placeholder function; implement actual CSV saving logic.
+    """
+    try:
+        df = pd.DataFrame(data)
+        df.to_csv(filename, index=False)
+        info(f"Data saved to {filename} successfully.")
+    except ImportError:
+        error("pandas library is not installed. Cannot save to CSV.")
+    except Exception as e:
+        error(f"Error saving data to CSV: {e}")
+    
 
 def is_response_successful(response):
     """
@@ -34,7 +50,7 @@ def check_api_health(api):
     This is a placeholder function; implement actual API health check logic.
     """
     try:
-        response = requests.get(api["url"], timeout=api.get("timeout", 5))
+        response = requests.get(api["url"], timeout=api.get("timeout", 5),verify=False)
         info(f"Checked {api['name']} - Status Code: {response.status_code}")
         return response
     except requests.RequestException as e:
