@@ -1,0 +1,6 @@
+# Ignore all SQLite / database files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.venv
